@@ -62,4 +62,5 @@ class ProdiController extends Controller
 
         return redirect()->route('/prodi')->with('success', 'Data Program Studi berhasil dihapus');
     }
+    
 }
