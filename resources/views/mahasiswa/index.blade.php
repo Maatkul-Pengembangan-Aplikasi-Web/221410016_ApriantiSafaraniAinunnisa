@@ -54,8 +54,52 @@
                                         @endif
                                     </td>
                                     <td>
-                                    <a href="{{ route('mahasiswa/edit', $mahasiswa->id) }}"class="btn btn-secondary">Edit</a>
-                                        <a href="#" type="button" class="btn btn-danger">Hapus</a>
+                                        <a href="{{ route('mahasiswa/edit', $mahasiswa->id) }}"class="btn btn-secondary">Edit</a>
+                                        <a href="javascript:void(0)" onclick="deleteFunction({{ $mahasiswa->id }})" type="button" class="btn btn-danger">Hapus</a>
+                                        <script>
+                                            function deleteFunction(id) {
+                                                // Set the product ID in the hidden input field
+                                                document.getElementById('delete_id').value = id;
+
+                                                // Update the form action dynamically
+                                                var form = document.getElementById('deleteForm');
+                                                form.action = '/mahasiswa/delete/' + id;
+
+                                                // Show the modal
+                                                $("#modalDelete").modal('show');
+                                            }
+                                        </script>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="modalDelete" tabindex="-1" aria-labelledby="modalDeleteTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <form action="" method="post" id="deleteForm">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <input type="hidden" name="mahasiswa_id" id="delete_id">
+
+                                                        <!-- Header Modal -->
+                                                        <div class="modal-header bg-danger text-white">
+                                                            <h5 class="modal-title" id="modalDeleteTitle">Konfirmasi Penghapusan Data</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+
+                                                        <!-- Body Modal -->
+                                                        <div class="modal-body text-center">
+                                                            <p class="fs-5">Apakah kamu yakin untuk menghapus data tersebut?</p>
+                                                            <p class="text-muted">data tidak dapat di kembalikan apabila sudah terhapus</p>
+                                                        </div>
+
+                                                        <!-- Footer Modal -->
+                                                        <div class="modal-footer justify-content-center">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batalkan</button>
+                                                            <button type="submit" class="btn btn-danger">Hapus</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
